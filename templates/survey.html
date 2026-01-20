@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Bestomer Testomer — Survey</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+</head>
+<body>
+  <div class="page">
+    <div class="topbar">
+      <div class="brand-wordmark">Bestomer<span class="dot">.</span></div>
+    </div>
+
+    <main class="shell">
+      <section class="panel panel-survey">
+        <div class="panel-inner">
+          <div class="kicker">Hey there, Testomer</div>
+          <h1 class="headline">We'd love your thoughts</h1>
+          <div class="subtext">
+            (and don't worry, we're not sensitive —<br/>
+            except Nick — and we won't share with him)
+          </div>
+
+          <div class="mode-row">
+            <div class="mode-labels">
+              <span class="mode-label mode-good" id="labelGood">GOOD STUFF</span>
+              <div class="toggle" role="switch" aria-checked="false" tabindex="0" id="modeToggle">
+                <div class="toggle-knob" id="toggleKnob"></div>
+              </div>
+              <span class="mode-label mode-tough" id="labelTough">TOUGH LOVE</span>
+            </div>
+          </div>
+
+          <div class="grid" id="tileGrid" aria-label="Feedback options">
+            <!-- populated by JS -->
+          </div>
+
+          <div class="actions">
+            <button class="submit" id="submitBtn" disabled>
+              <span class="submit-dot"></span>
+              <span>SUBMIT</span>
+              <span class="submit-dot"></span>
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Modal for "Something Else" notes -->
+  <div class="modal-overlay" id="notesModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Tell us more</h2>
+        <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <label class="notes-label" for="notes">What else would you like to share?</label>
+        <textarea id="notes" class="notes" placeholder="Type your thoughts here…" rows="6"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="modal-btn modal-btn-secondary" id="modalCancel">Cancel</button>
+        <button class="modal-btn modal-btn-primary" id="modalSave">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
