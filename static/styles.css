@@ -901,4 +901,32 @@ body {
   .topbar {
     padding: 16px 20px 0;
   }
+
+  /* Login modal responsive styles */
+  .login-modal-inner {
+    max-width: calc(100vw - 40px);
+    padding: 0 20px;
+  }
+
+  .login-headline {
+    font-size: 24px;
+    letter-spacing: -0.72px;
+    margin: 0 0 32px 0;
+  }
+
+  .login-modal-overlay .tiny-icons {
+    margin: 0 0 32px 0;
+  }
+
+  .login-modal-overlay .pill-input {
+    width: min(327px, 100%);
+  }
+
+  .login-modal-overlay .mascot-wrap {
+    margin-top: 40px;
+  }
+
+  .login-modal-overlay .secureguy {
+    max-width: min(280px, 80vw);
+  }
 }
