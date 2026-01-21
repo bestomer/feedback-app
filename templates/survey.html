@@ -1,123 +1,172 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Bestomer Testomer — Survey</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
-</head>
-<body>
-  <div class="page">
-    {% if authed %}
-    <div class="topbar">
-      <div class="brand-wordmark">Bestomer<span class="dot">.</span></div>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Bestomer Testomer — Survey</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+  </head>
+  <body>
+    <div class="page">
+      {% if authed %}
+      <div class="topbar">
+        <div class="brand-logo">
+          <img src="{{ url_for('static', filename='bestomer-logo-text.svg') }}" alt="Bestomer" class="logo-text" />
+          <img src="{{ url_for('static', filename='bestomer-logo-dot.svg') }}" alt="" class="logo-dot" />
+        </div>
+      </div>
+      {% endif %}
+
+      <main class="shell">
+        <section class="panel panel-survey">
+          <div class="panel-inner">
+            <div class="kicker">Hey there, Testomer</div>
+            <h1 class="headline">We&rsquo;d love your thoughts</h1>
+            <div class="subtext">
+              and don&rsquo;t worry, we&rsquo;re not sensitive<br />
+              (except Nick — and we won&rsquo;t share with him)
+            </div>
+
+            <div class="mode-row">
+              <div class="mode-labels">
+                <span class="mode-label mode-good" id="labelGood"
+                  >GOOD STUFF</span
+                >
+                <div
+                  class="toggle"
+                  role="switch"
+                  aria-checked="false"
+                  tabindex="0"
+                  id="modeToggle"
+                >
+                  <div class="toggle-knob" id="toggleKnob"></div>
+                </div>
+                <span class="mode-label mode-tough" id="labelTough"
+                  >TOUGH LOVE</span
+                >
+              </div>
+            </div>
+
+            <div class="grid" id="tileGrid" aria-label="Feedback options">
+              <!-- populated by JS -->
+            </div>
+
+            <div class="actions">
+              <button type="button" id="submitBtn" class="submit" disabled>
+                <img src="{{ url_for('static', filename='union-icon.svg') }}" alt="" class="submit-icon" />
+                <span>SUBMIT</span>
+                <img src="{{ url_for('static', filename='union-icon.svg') }}" alt="" class="submit-icon" />
+              </button>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- Modal for "Something Else" notes -->
+    <div class="modal-overlay" id="notesModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">Tell us more</h2>
+          <button class="modal-close" id="modalClose" aria-label="Close">
+            &times;
+          </button>
+        </div>
+        <div class="modal-body">
+          <label class="notes-label" for="notes"
+            >What else would you like to share?</label
+          >
+          <textarea
+            id="notes"
+            class="notes"
+            placeholder="Type your thoughts here…"
+            rows="6"
+          ></textarea>
+        </div>
+        <div class="modal-footer">
+          <button class="modal-btn modal-btn-secondary" id="modalCancel">
+            Cancel
+          </button>
+          <button class="modal-btn modal-btn-primary" id="modalSave">
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Login Modal Overlay -->
+    {% if not authed %}
+    <div class="modal-overlay login-modal-overlay show" id="loginModal">
+      <div class="modal-content login-modal-content">
+        <div class="login-modal-body">
+          <!-- Centered content -->
+          <div class="login-modal-inner">
+            <h1 class="login-headline">
+              Welcome to the<br />
+              Bestomer Testomer<br />
+              Certified Input Platform
+            </h1>
+
+            <div class="tiny-icons" aria-hidden="true">
+              {% for bestoid in bestoids %}
+              <img
+                src="{{ url_for('static', filename='bestoids/' + bestoid) }}"
+                alt="Bestoid"
+                class="bestoid-icon"
+              />
+              {% endfor %}
+            </div>
+
+            <form method="post" action="/" class="login-form">
+              <label class="sr-only" for="password">Password</label>
+              <div class="pill-input">
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  placeholder="please enter password"
+                  autocomplete="off"
+                />
+                <button class="pill-go" type="submit" aria-label="Go">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="14"
+                    height="12"
+                    viewBox="0 0 14 12"
+                    fill="none"
+                  >
+                    <path
+                      d="M12.9375 5.90625L0.632813 5.90625M12.9375 5.90625L7.66406 11.1797M12.9375 5.90625L7.66406 0.632812"
+                      stroke="#F3F2EE"
+                      stroke-width="1.26562"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </button>
+              </div>
+              {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %} {% for category, message in messages %}
+              <div class="error">{{ message }}</div>
+              {% endfor %} {% endif %} {% endwith %}
+            </form>
+
+            <div class="mascot-wrap">
+              <img
+                src="{{ url_for('static', filename='secureguy.png') }}"
+                alt="Security Guy"
+                class="secureguy"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     {% endif %}
 
-    <main class="shell">
-      <section class="panel panel-survey">
-        <div class="panel-inner">
-          <div class="kicker">Hey there, Testomer</div>
-          <h1 class="headline">We'd love your thoughts</h1>
-          <div class="subtext">
-            (and don't worry, we're not sensitive —<br/>
-            except Nick — and we won't share with him)
-          </div>
-
-          <div class="mode-row">
-            <div class="mode-labels">
-              <span class="mode-label mode-good" id="labelGood">GOOD STUFF</span>
-              <div class="toggle" role="switch" aria-checked="false" tabindex="0" id="modeToggle">
-                <div class="toggle-knob" id="toggleKnob"></div>
-              </div>
-              <span class="mode-label mode-tough" id="labelTough">TOUGH LOVE</span>
-            </div>
-          </div>
-
-          <div class="grid" id="tileGrid" aria-label="Feedback options">
-            <!-- populated by JS -->
-          </div>
-
-          <div class="actions">
-            <button class="submit" id="submitBtn" disabled>
-              <span class="submit-dot"></span>
-              <span>SUBMIT</span>
-              <span class="submit-dot"></span>
-            </button>
-          </div>
-        </div>
-      </section>
-    </main>
-  </div>
-
-  <!-- Modal for "Something Else" notes -->
-  <div class="modal-overlay" id="notesModal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 class="modal-title">Tell us more</h2>
-        <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
-      </div>
-      <div class="modal-body">
-        <label class="notes-label" for="notes">What else would you like to share?</label>
-        <textarea id="notes" class="notes" placeholder="Type your thoughts here…" rows="6"></textarea>
-      </div>
-      <div class="modal-footer">
-        <button class="modal-btn modal-btn-secondary" id="modalCancel">Cancel</button>
-        <button class="modal-btn modal-btn-primary" id="modalSave">Save</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Login Modal Overlay -->
-  {% if not authed %}
-  <div class="modal-overlay login-modal-overlay show" id="loginModal">
-    <div class="modal-content login-modal-content">
-      <div class="login-modal-body">
-        <!-- Centered content -->
-        <div class="login-modal-inner">
-          <h1 class="login-headline">
-            Welcome to the<br/>
-            Bestomer Testomer<br/>
-            Certified Input Platform
-          </h1>
-
-          <div class="tiny-icons" aria-hidden="true">
-            {% for bestoid in bestoids %}
-              <img src="{{ url_for('static', filename='bestoids/' + bestoid) }}"
-                   alt="Bestoid" class="bestoid-icon" />
-            {% endfor %}
-          </div>
-
-          <form method="post" action="/" class="login-form">
-            <label class="sr-only" for="password">Password</label>
-            <div class="pill-input">
-              <input id="password" name="password" type="password"
-                     placeholder="please enter password" autocomplete="off" />
-              <button class="pill-go" type="submit" aria-label="Go">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="12" viewBox="0 0 14 12" fill="none">
-                  <path d="M12.9375 5.90625L0.632813 5.90625M12.9375 5.90625L7.66406 11.1797M12.9375 5.90625L7.66406 0.632812" stroke="#F3F2EE" stroke-width="1.26562" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </button>
-            </div>
-            {% with messages = get_flashed_messages(with_categories=true) %}
-              {% if messages %}
-                {% for category, message in messages %}
-                  <div class="error">{{ message }}</div>
-                {% endfor %}
-              {% endif %}
-            {% endwith %}
-          </form>
-
-          <div class="mascot-wrap">
-            <img src="{{ url_for('static', filename='secureguy.png') }}"
-                 alt="Security Guy" class="secureguy" />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  {% endif %}
-
-  <script src="{{ url_for('static', filename='app.js') }}"></script>
-</body>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+  </body>
 </html>
