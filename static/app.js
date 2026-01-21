@@ -105,8 +105,9 @@
     const isTough = mode === "tough";
     labelGood.classList.toggle("active", !isTough);
     labelTough.classList.toggle("active", isTough);
+    modeToggle.classList.toggle("tough", isTough);
     toggleKnob.style.transform = isTough
-      ? "translateX(24px)"
+      ? "translateX(27px)"
       : "translateX(0px)";
     modeToggle.setAttribute("aria-checked", isTough ? "true" : "false");
 

@@ -93,7 +93,15 @@ def submit_post():
 def thanks_get():
     if not is_authed():
         return redirect(url_for("survey_get"))
-    return render_template("thanks.html")
+
+    # Get random bestoids for thanks page
+    bestoids = []
+    bestoids_dir = os.path.join(BASE_DIR, "static", "bestoids")
+    if os.path.exists(bestoids_dir):
+        all_bestoids = [f for f in os.listdir(bestoids_dir) if f.endswith('.png')]
+        bestoids = random.sample(all_bestoids, min(3, len(all_bestoids)))
+
+    return render_template("thanks.html", bestoids=bestoids)
 
 
 @app.post("/submit-email")
