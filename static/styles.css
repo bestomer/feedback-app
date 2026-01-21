@@ -797,16 +797,6 @@ body {
   animation: none;
 }
 
-/* Frosted glass content box - shared style for centered content */
-.modal-content-frosted {
-  text-align: center;
-  max-width: 500px;
-  padding: 40px;
-  background: rgba(255, 255, 255, 0.7);
-  border-radius: 34px;
-  backdrop-filter: blur(20px);
-}
-
 /* Modal close button - shared style */
 .modal-close-fullscreen {
   position: absolute;
@@ -1056,10 +1046,19 @@ body {
 }
 
 /* Thanks Modal - Specific styles */
-.thanks-modal-overlay {
-  /* Inherits from .modal-overlay-fullscreen with slight opacity difference */
-  background: rgba(242, 241, 246, 0.95);
-  backdrop-filter: blur(8px);
+.thanks-modal-body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.thanks-modal-inner {
+  text-align: center;
+  max-width: 499px;
+  position: relative;
 }
 
 .thanks-headline {
@@ -1068,8 +1067,9 @@ body {
   font-weight: 600;
   letter-spacing: -0.84px;
   line-height: 1.1;
-  margin: 0 0 16px;
+  margin: 0 0 32px;
   color: #141414;
+  text-transform: uppercase;
 }
 
 .thanks-text {
@@ -1078,81 +1078,58 @@ body {
   line-height: 1.1;
   letter-spacing: -0.66px;
   color: #141414;
-  margin: 0 0 32px;
+  margin: 0 0 40px;
 }
 
-.thanks-icons {
-  display: flex;
-  gap: 18px;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 40px;
-}
-
-.thanks-icons .bestoid-icon {
-  width: 27.3px;
-  height: 27.3px;
-  display: block;
+.thanks-modal-overlay .thanks-icons {
+  margin: 0 0 40px 0;
 }
 
 .thanks-email-form {
-  display: flex;
-  justify-content: center;
+  margin: 0;
 }
 
-.email-pill {
-  width: 100%;
-  max-width: 327px;
+/* Override pill-input for thanks modal */
+.thanks-modal-overlay .pill-input {
+  width: 327px;
+  height: 64px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 100px;
+  box-shadow: 0 0 22px 2px rgba(0, 0, 0, 0.16);
+  padding: 0 28.5px 0 26px;
   display: flex;
   align-items: center;
-  background: #fff;
-  border: none;
-  border-radius: 100px;
-  box-shadow: 0px 0px 22px 2px rgba(0, 0, 0, 0.16);
-  padding: 0 6px 0 26px;
-  height: 64px;
 }
 
-.email-pill input {
-  flex: 1;
-  border: none;
-  outline: none;
+.thanks-modal-overlay .pill-input input {
   font-family: "Akkurat Mono", monospace;
   font-size: 16px;
   letter-spacing: -0.48px;
-  background: transparent;
-  color: #000;
-  font-weight: 400;
+  flex: 1;
 }
 
-.email-pill input::placeholder {
-  color: #000;
-  opacity: 1;
+.thanks-modal-overlay .pill-input input::placeholder {
   text-transform: uppercase;
 }
 
-.email-submit-btn {
-  width: 52px;
-  height: 52px;
+.thanks-modal-overlay .pill-go {
+  width: 22.5px;
+  height: 22.5px;
+  border-radius: 999px;
+  background: #8b87fd;
   border: none;
-  background: #bdbbfd;
-  border-radius: 50%;
-  cursor: pointer;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: opacity 0.2s ease;
-  flex-shrink: 0;
   padding: 0;
+  cursor: pointer;
 }
 
-.email-submit-btn:hover {
-  opacity: 0.8;
-}
-
-.email-submit-btn img {
-  width: 22.5px;
-  height: 22.5px;
+.thanks-modal-overlay .pill-go svg {
+  width: 14px;
+  height: 12px;
   display: block;
 }
 
@@ -1170,25 +1147,21 @@ body {
 }
 
 @media (max-width: 640px) {
-  .thanks-close {
-    top: 24px;
-    right: 24px;
-  }
-
-  .thanks-content {
-    padding: 20px;
-    max-width: 90vw;
+  .thanks-modal-inner {
+    max-width: calc(100vw - 40px);
+    padding: 0 20px;
   }
 
   .thanks-headline {
     font-size: 24px;
+    letter-spacing: -0.72px;
   }
 
   .thanks-text {
     font-size: 18px;
   }
 
-  .email-pill {
-    max-width: 90vw;
+  .thanks-modal-overlay .pill-input {
+    width: min(327px, 100%);
   }
 }

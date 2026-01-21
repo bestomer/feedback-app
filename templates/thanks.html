@@ -60,38 +60,56 @@
       </svg>
     </button>
 
-    <div class="modal-content-frosted thanks-modal-content">
-      <h1 class="thanks-headline">thanks for the help!</h1>
-      <p class="thanks-text">
-        We're happy to keep feedback anonymous, but if you feel comfortable, we'd love your e-mail.
-      </p>
+    <div class="modal-content-fullscreen thanks-modal-content">
+      <div class="thanks-modal-body">
+        <div class="thanks-modal-inner">
+          <h1 class="thanks-headline">Thanks for the help!</h1>
+          <p class="thanks-text">
+            We're happy to keep feedback anonymous, but if you feel comfortable, we'd love your e-mail.
+          </p>
 
-      <div class="thanks-icons" aria-hidden="true">
-        {% for bestoid in bestoids %}
-        <img
-          src="{{ url_for('static', filename='bestoids/' + bestoid) }}"
-          alt="Bestoid"
-          class="bestoid-icon"
-        />
-        {% endfor %}
-      </div>
+          <div class="thanks-icons" aria-hidden="true">
+            {% for bestoid in bestoids %}
+            <img
+              src="{{ url_for('static', filename='bestoids/' + bestoid) }}"
+              alt="Bestoid"
+              class="bestoid-icon"
+            />
+            {% endfor %}
+          </div>
 
-      <form class="thanks-email-form" id="emailForm">
-        <div class="email-pill">
-          <input
-            type="email"
-            id="emailInput"
-            placeholder="e-mail address"
-            autocomplete="email"
-          />
-          <button type="submit" class="email-submit-btn" aria-label="Submit email">
-            <img src="{{ url_for('static', filename='arrow-icon.svg') }}" alt="" />
-          </button>
+          <form class="thanks-email-form" id="emailForm">
+            <div class="pill-input">
+              <input
+                type="email"
+                id="emailInput"
+                placeholder="e-mail address"
+                autocomplete="email"
+              />
+              <button type="submit" class="pill-go" aria-label="Submit email">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="14"
+                  height="12"
+                  viewBox="0 0 14 12"
+                  fill="none"
+                >
+                  <path
+                    d="M12.9375 5.90625L0.632813 5.90625M12.9375 5.90625L7.66406 11.1797M12.9375 5.90625L7.66406 0.632812"
+                    stroke="#F3F2EE"
+                    stroke-width="1.26562"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
+          </form>
+
+          <div class="email-success" id="emailSuccess">
+            Thanks! We got it.
+          </div>
         </div>
-      </form>
-
-      <div class="email-success" id="emailSuccess">
-        Thanks! We got it.
       </div>
     </div>
   </div>
