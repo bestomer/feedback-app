@@ -839,8 +839,7 @@ body {
 }
 
 /* Shared icon spacing for fullscreen modals */
-.modal-overlay-fullscreen .tiny-icons,
-.modal-overlay-fullscreen .thanks-icons {
+.modal-overlay-fullscreen .tiny-icons {
   margin: 0 0 40px 0;
 }
 
@@ -966,8 +965,7 @@ body {
     margin: 0 0 32px 0;
   }
 
-  .modal-overlay-fullscreen .tiny-icons,
-  .modal-overlay-fullscreen .thanks-icons {
+  .modal-overlay-fullscreen .tiny-icons {
     margin: 0 0 32px 0;
   }
 
