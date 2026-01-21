@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify, flash
 from datetime import datetime, timezone
 import os
 import json
@@ -26,18 +26,8 @@ def is_authed() -> bool:
 
 @app.get("/")
 def login_get():
-    # If already authed, go straight to survey.
-    if is_authed():
-        return redirect(url_for("survey_get"))
-
-    # Get random bestoids
-    bestoids_dir = os.path.join(BASE_DIR, "static", "bestoids")
-    bestoids = []
-    if os.path.exists(bestoids_dir):
-        all_bestoids = [f for f in os.listdir(bestoids_dir) if f.endswith('.png')]
-        bestoids = random.sample(all_bestoids, min(3, len(all_bestoids)))
-
-    return render_template("login.html", error=None, bestoids=bestoids)
+    # Always redirect to survey page (modal will show if not authed)
+    return redirect(url_for("survey_get"))
 
 
 @app.post("/")
@@ -47,21 +37,24 @@ def login_post():
         session["authed"] = True
         return redirect(url_for("survey_get"))
 
-    # Get random bestoids for error page
-    bestoids_dir = os.path.join(BASE_DIR, "static", "bestoids")
-    bestoids = []
-    if os.path.exists(bestoids_dir):
-        all_bestoids = [f for f in os.listdir(bestoids_dir) if f.endswith('.png')]
-        bestoids = random.sample(all_bestoids, min(3, len(all_bestoids)))
-
-    return render_template("login.html", error="Nope. Try again.", bestoids=bestoids)
+    # Store error in session flash
+    flash("Nope. Try again.", "error")
+    return redirect(url_for("survey_get"))
 
 
 @app.get("/survey")
 def survey_get():
-    if not is_authed():
-        return redirect(url_for("login_get"))
-    return render_template("survey.html")
+    authed = is_authed()
+
+    # Get random bestoids for login modal (if not authenticated)
+    bestoids = []
+    if not authed:
+        bestoids_dir = os.path.join(BASE_DIR, "static", "bestoids")
+        if os.path.exists(bestoids_dir):
+            all_bestoids = [f for f in os.listdir(bestoids_dir) if f.endswith('.png')]
+            bestoids = random.sample(all_bestoids, min(3, len(all_bestoids)))
+
+    return render_template("survey.html", authed=authed, bestoids=bestoids)
 
 
 @app.post("/submit")
@@ -99,8 +92,16 @@ def submit_post():
 @app.get("/thanks")
 def thanks_get():
     if not is_authed():
-        return redirect(url_for("login_get"))
-    return render_template("thanks.html")
+        return redirect(url_for("survey_get"))
+
+    # Get random bestoids for thanks page
+    bestoids = []
+    bestoids_dir = os.path.join(BASE_DIR, "static", "bestoids")
+    if os.path.exists(bestoids_dir):
+        all_bestoids = [f for f in os.listdir(bestoids_dir) if f.endswith('.png')]
+        bestoids = random.sample(all_bestoids, min(3, len(all_bestoids)))
+
+    return render_template("thanks.html", bestoids=bestoids)
 
 
 @app.post("/submit-email")
@@ -128,7 +129,7 @@ def submit_email():
 @app.get("/logout")
 def logout_get():
     session.clear()
-    return redirect(url_for("login_get"))
+    return redirect(url_for("survey_get"))
 
 
 @app.get("/results-portal")

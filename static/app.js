@@ -1,24 +1,72 @@
 (function () {
   const GOOD = [
-    { id: "got_my_taste", label: "Got my taste", icon: "GotMyTaste.png" },
-    { id: "bought_something", label: "Bought\nSomething", icon: "bag" },
-    { id: "found_cool", label: "Found\nSomething\nCool!", icon: "FoundSomethingCool.png" },
-    { id: "pretty_slick", label: "Pretty\nSlick", icon: "prettyslick.png" },
-    { id: "would_love_if", label: "Would love\nit if...", icon: "WouldLoveIf.png" },
-    { id: "no_ads", label: "No Ads,\nHell Yeah!", icon: "NoAds.png" },
-    { id: "easy_explore", label: "Easy\nto Explore", icon: "ABC.png" },
-    { id: "something_else", label: "Something\nElse...", icon: "SOmethijngElse.png" },
+    { id: "got_my_taste", label: "Got my taste", icon: "tongue-icon.svg" },
+    {
+      id: "bought_something",
+      label: "Bought\nSomething",
+      icon: "shopping-bag-icon.svg",
+    },
+    {
+      id: "found_cool",
+      label: "Found\nSomething\nCool!",
+      icon: "diamond-icon.svg",
+    },
+    { id: "pretty_slick", label: "Pretty\nSlick", icon: "eyes-icon.svg" },
+    {
+      id: "would_love_if",
+      label: "Would love\nit if...",
+      icon: "lightbulb-icon.svg",
+    },
+    { id: "no_ads", label: "No Ads,\nHell Yeah!", icon: "ad-icon.svg" },
+    { id: "easy_explore", label: "Easy\nto Explore", icon: "abc-icon.svg" },
+    {
+      id: "something_else",
+      label: "Something\nElse...",
+      icon: "thought-bubble-icon.svg",
+    },
   ];
 
   const TOUGH = [
-    { id: "didnt_nail_taste", label: "Didn't nail\nmy taste", icon: "DidntNail.png" },
-    { id: "not_sure_what_to_do", label: "Not Sure\nWhat To Do", icon: "NotSureWhatToDo.png" },
-    { id: "wish_it_had", label: "I wish it\nhad...", icon: "IWishItHad.png" },
-    { id: "needs_more_variety", label: "Needs More\nVariety", icon: "NeedsMore.png" },
-    { id: "way_too_slow", label: "Was Way\nToo Slow", icon: "tooslow.png" },
-    { id: "tech_issue", label: "Had a\nTech Issue..", icon: "HadTechIssue.png" },
-    { id: "didnt_find_anything", label: "Didn't Find\nAnything\nFor Me", icon: "DidntFInd.png" },
-    { id: "something_else", label: "Something\nElse...", icon: "SomethingElseBad.png" },
+    {
+      id: "didnt_nail_taste",
+      label: "Didn't nail\nmy taste",
+      icon: "tongue-crossed-icon.svg",
+    },
+    {
+      id: "not_sure_what_to_do",
+      label: "Not Sure\nWhat To Do",
+      icon: "not-sure-icon.svg",
+    },
+    {
+      id: "wish_it_had",
+      label: "I wish it\nhad...",
+      icon: "wish-it-had-icon.svg",
+    },
+    {
+      id: "needs_more_variety",
+      label: "Needs More\nVariety",
+      icon: "needs-variety-icon.svg",
+    },
+    {
+      id: "way_too_slow",
+      label: "Was Way\nToo Slow",
+      icon: "too-slow-icon.svg",
+    },
+    {
+      id: "tech_issue",
+      label: "Had a Tech Issue..",
+      icon: "tech-issue-icon.svg",
+    },
+    {
+      id: "didnt_find_anything",
+      label: "Didn't Find\nAnything\nFor Me",
+      icon: "didnt-find-icon.svg",
+    },
+    {
+      id: "something_else",
+      label: "Something\nElse...",
+      icon: "thought-bubble-tough-icon.svg",
+    },
   ];
 
   const tileGrid = document.getElementById("tileGrid");
@@ -39,19 +87,8 @@
   let selected = new Set();
 
   function iconSvg(name) {
-    // Check if it's a PNG file
-    if (name.endsWith('.png')) {
-      return `<img src="/static/icons/${name}" alt="icon" />`;
-    }
-
-    // Fallback to SVG for icons without PNG (like "bag")
-    const common = `stroke-linecap="round" stroke-linejoin="round"`;
-    switch (name) {
-      case "bag":
-        return `<svg viewBox="0 0 24 24"><path ${common} d="M7 8h10l1 13H6L7 8z"/><path ${common} d="M9 8a3 3 0 0 1 6 0"/></svg>`;
-      default:
-        return `<svg viewBox="0 0 24 24"><path ${common} d="M12 5v14"/><path ${common} d="M5 12h14"/></svg>`;
-    }
+    // All icons are now SVGs in the icons directory
+    return `<img src="/static/icons/${name}" alt="icon" />`;
   }
 
   function openModal() {
@@ -68,7 +105,10 @@
     const isTough = mode === "tough";
     labelGood.classList.toggle("active", !isTough);
     labelTough.classList.toggle("active", isTough);
-    toggleKnob.style.transform = isTough ? "translateX(24px)" : "translateX(0px)";
+    modeToggle.classList.toggle("tough", isTough);
+    toggleKnob.style.transform = isTough
+      ? "translateX(27px)"
+      : "translateX(0px)";
     modeToggle.setAttribute("aria-checked", isTough ? "true" : "false");
 
     // tiles
